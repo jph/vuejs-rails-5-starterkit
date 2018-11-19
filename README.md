@@ -290,3 +290,56 @@ gem 'serviceworker-rails', github: 'rossta/serviceworker-rails'
 
 ## Setup Turbolinks
 
+1. Add node dependencies
+
+```bash
+yarn add vue-turbolinks turbolinks
+yarn install
+```
+
+2. Load Turbolinks by adding
+   `app/javascript/initializers/turbolinks.js`:
+
+```javascript
+import Turbolinks from 'turbolinks'
+Turbolinks.start()
+```
+
+3. Update `app/javascript/packs/application.js`:
+
+```javascript
+import 'initializers/turbolinks.js'
+```
+
+4. Uncomment in `hello_vue.js`:
+
+```javascript
+import TurbolinksAdapter from 'vue-turbolinks'
+import Vue from 'vue/dist/vue.esm'
+import App from '../app.vue'
+
+Vue.use(TurbolinksAdapter)
+
+document.addEventListener('turbolinks:load', () => {
+  const app = new Vue({
+    el: '#hello',
+    data: {
+      message: "Can you say hello?"
+    },
+    components: { App }
+  })
+})
+```
+
+5. Update layout with:
+
+```html
+<div id="hello"></div>
+```
+
+6. Run tests and server to verify:
+
+```bash
+bin/rails t
+bin/rails s
+```
